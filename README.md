@@ -10,3 +10,10 @@ Automatic grading tool for assingments
 -> go to current directory
 -> pip install dist/test_package-0.0.1-py3-none-any.whl
 -> now the package is installed locally
+
+test.py:
+
+from tests import tests
+from test_helpers import *
+
+runTest(tests)
