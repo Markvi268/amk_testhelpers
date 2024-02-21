@@ -15,3 +15,4 @@ from .helpers import callCPP
 from .helpers import callCPPFunction
 from .helpers import callCFunction
 from .helpers import callC
+from .helpers import runTest
