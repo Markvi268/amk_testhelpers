@@ -6,6 +6,7 @@ import os
 import shutil
 import glob
 import threading
+import unittest
 
 
 
@@ -331,3 +332,35 @@ def callCFunction(cmdline_args=[], input='', timeout=30, compiler='gcc', source=
 
 def split(s):
     return re.split('/|\\\\', s)
+
+def runTest(module_name):
+
+    #Get the path to the test directory
+    current_dir = os.getcwd()
+    testpath = os.path.join(current_dir, 'tests')
+
+    #Remove the result file
+    resultfile=os.path.join(testpath, 'result.txt')
+    try:
+        os.remove(resultfile)
+    except:
+        pass
+
+    sys.path.insert(0, testpath)
+    sys.path.insert(0, os.path.join(current_dir,'src'))
+
+    #Run the tests
+    loader = unittest.TestLoader()
+    suite = loader.loadTestsFromModule(module_name)
+
+    print('Test', os.path.basename(current_dir))
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
+    #Write the result file
+    outputfile=open(resultfile, 'wt')
+    outputfile.write('{0}\t{1}'.format(module_name.started(), module_name.completed()))
+    outputfile.close()  
+    if module_name.started()>module_name.completed():
+        print(module_name.started()-module_name.completed(), '/', module_name.started(), 'tests failed!')
+    else:
+        print(module_name.completed(),'tests completed succesfully')

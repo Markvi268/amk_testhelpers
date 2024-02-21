@@ -6,7 +6,7 @@ setup(
     author="Markku Viertokangas",
     author_email="markku.viertokangas@hotmail.com",
     description="Contains helper functions for unit testing",
-    long_description="test_package is a package that contains helper functions for unit testing ",
+    long_description="test_package is a package that contains auxiliary functions for unit testing, including the runTest() method, which receives tests.py module.",
     long_description_content_type="text/markdown",
     packages=find_packages(),
     install_requires=[
