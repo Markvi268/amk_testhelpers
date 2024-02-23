@@ -99,38 +99,14 @@ def dotNetProjectName():
 
 
 def dotNetNumbersFormat():
-    path=getpath()+'/../test_helpers'
-    project_name='environment'
+    import locale
 
-    tmp_directories=['bin', 'obj']
-    for d in tmp_directories:
-        try:
-            shutil.rmtree(path+'/'+d)
-        except:
-            pass
+    locale.setlocale(locale.LC_ALL, '')
+    locale_info = locale.localeconv()
 
-    timeout=10
-        
-    try:
-        rc = subprocess.run(['dotnet', 'build'], cwd=path, shell=True)
-        if rc.returncode!=0:
-            raise FileNotFoundError
-    except:
-        print('!!Compile falled to fallback!!')
-        rc = subprocess.run(['dotnet build'], cwd=path, shell=True)
-        print("Fallback completed, don't worry")
-
-    try:
-        cmd_line=[path+'/bin/Debug/net6.0/'+project_name+'.exe',]
-        rc = subprocess.run(cmd_line, cwd=path, stdout=subprocess.PIPE, text=True, timeout=timeout)
-    except:
-        print('!!Running falled to fallback!!')
-        cmd_line=[path+'/bin/Debug/net6.0/'+project_name,]
-        rc = subprocess.run(cmd_line, stdout=subprocess.PIPE, text=True, timeout=timeout)
-        print("Fallback completed, don't worry")
-
-    neg=rc.stdout[0]
-    sep=rc.stdout[2]
+    neg = locale_info['negative_sign'] if locale_info['negative_sign'] else '-'
+    sep = locale_info['decimal_point']
+   
     return neg, sep
 
 
