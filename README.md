@@ -23,29 +23,35 @@ This module provides a collection of utility functions for handling various task
 - callCFunction(): Executes C code along with a specific function.
 - split(): Splits a string using forward and backward slashes.
 - runTest(): Runs unit tests for the specified module.
-- Usage
+
+## Usage
 - Make use of the provided functions to execute code snippets in various languages.
 - Utilize the path handling functions to manage file paths efficiently.
 - Execute tests using the runTest() function to ensure code correctness and functionality.
 
 ## Installation
-- Clone repository
-- navigate to current directory
-- pip install dist/test_package-0.0.1-py3-none-any.whl
-
-- test.py:
+1) Clone repository
+2) Navigate to current directory
+    ```
+    pip install dist/test_package-0.0.1-py3-none-any.whl
+    ```
+## test.py
 - from tests import tests
-- from test_helpers import *
+- from test_helpers import runTest
 - runTest(tests)
 
-## Run without python and .py command in Windows
+## tests/tests.py
+- from test_helpers import *
+
+
+## Run without python and .py command in Windows (Not work in PowesShell only Command Prompt)
 1) Check the default apps
     * Right-click the windows icon
     * System
     * Settings
     * Applications
     * Default Apps
-    * Get python
+    * Find python
     * Select Python
     * Specify .py file in Python
 
@@ -53,9 +59,10 @@ This module provides a collection of utility functions for handling various task
     ```
     echo %PATHEXT%
     ```
-    - If not found .PY run 
-    ```
-    setx PATHEXT "%PATHEXT%;.PY"
-    ```
+    * If not found .PY run 
+        ```
+        setx PATHEXT "%PATHEXT%;.PY"
+        ```
+    * Restart computer
 ## **License**
 This module is distributed under the MIT License. See the [LISENCE.md](LISENCE.md) file for more information.

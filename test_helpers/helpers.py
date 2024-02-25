@@ -78,7 +78,7 @@ def callpythoncode(code, cmdline_args=[], input='', timeout=30):
         If the execution times out, a TimeoutExpired exception is raised.
 
     """
-    path=getpath()
+    path = os.getcwd()
 
     testcodefile='tests/my_test_code.py'
     f=open(testcodefile, "w")
@@ -192,7 +192,7 @@ def callpython(cmdline_args=[], input='', timeout=30):
         'my_code.py' file does not exist, a FileNotFoundError is raised.
 
     """
-    path=getpath()
+    path = os.getcwd()
 
     cmd_line=[sys.executable, 'my_code.py',]+cmdline_args
     try:
