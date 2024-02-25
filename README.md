@@ -53,9 +53,9 @@ This module provides a collection of utility functions for handling various task
     ```
     echo %PATHEXT%
     ```
-3) If not found .PY run 
-    ´´´
+    - If not found .PY run 
+    ```
     setx PATHEXT "%PATHEXT%;.PY"
-    ´´´
+    ```
 ## **License**
 This module is distributed under the MIT License. See the [LISENCE.md](LISENCE.md) file for more information.
