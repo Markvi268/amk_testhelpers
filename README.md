@@ -1,4 +1,4 @@
-# Utility Function Module
+# Testing module
 ## Overview
 
 This module provides a collection of utility functions for handling various tasks and executing code snippets for testing purposes. It offers functionalities for running Python, C/C++, and .NET code, handling file paths, executing tests, and managing subprocesses efficiently.
@@ -38,5 +38,24 @@ This module provides a collection of utility functions for handling various task
 - from test_helpers import *
 - runTest(tests)
 
+## Run without python and .py command in Windows
+1) Check the default apps
+    * Right-click the windows icon
+    * System
+    * Settings
+    * Applications
+    * Default Apps
+    * Get python
+    * Select Python
+    * Specify .py file in Python
+
+2) Open a command prompt as administrator
+    ```
+    echo %PATHEXT%
+    ```
+    - If not found .PY run 
+    ´´´
+    setx PATHEXT "%PATHEXT%;.PY"
+    ´´´
 ## **License**
 This module is distributed under the MIT License. See the [LISENCE.md](LISENCE.md) file for more information.

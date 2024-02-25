@@ -13,6 +13,7 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     license="MIT",
+    url="https://github.com/Markvi268/test_package",
     classifiers=[
         "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
@@ -22,6 +23,6 @@ setup(
         
     ],
 
-    python_requires=">=3.6",
+    python_requires=">=3.10",
 
 )
