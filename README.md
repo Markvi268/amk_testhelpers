@@ -53,7 +53,7 @@ This module provides a collection of utility functions for handling various task
     ```
     echo %PATHEXT%
     ```
-    - If not found .PY run 
+3) If not found .PY run 
     ´´´
     setx PATHEXT "%PATHEXT%;.PY"
     ´´´
