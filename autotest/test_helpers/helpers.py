@@ -434,41 +434,6 @@ def callDotNetFunction(cmdline_args=[], input='', timeout=30, build=True):
 
     return rc.stdout
 
-def callMono(cmdline_args=[], input='', timeout=30):
-    path=getpath()
-
-    #Compile the source code
-    try:
-        rc = subprocess.run(['mcs', 'my_code.cs'], cwd=path+'/src', shell=True)
-        if rc.returncode!=0:
-            raise FileNotFoundError
-    except:
-        print('!!Compile falled to fallback!!')
-        rc = subprocess.run(['mcs my_code.cs'], cwd=path+'/src', shell=True)
-        print("Fallback completed, don't worry")
-
-    cmd_line=['mono','my_code.exe',]+cmdline_args
-    rc = subprocess.run(cmd_line, cwd=path+'/src', stdout=subprocess.PIPE, text=True, input=input, timeout=timeout)
-
-    return rc.stdout
-
-def callMonoFunction(cmdline_args=[], input='', timeout=30):
-    path=getpath()
-
-    #Compile the source code
-    try:
-        rc = subprocess.run(['mcs', '../tests/testmain.cs', 'my_code.cs'], cwd=path+'/src', shell=True)
-        if rc.returncode!=0:
-            raise FileNotFoundError
-    except:
-        print('!!Compile falled to fallback!!')
-        rc = subprocess.run(['mcs ../tests/testmain.cs my_code.cs'], cwd=path+'/src', shell=True)
-        print("Fallback completed, don't worry")
-
-    cmd_line=['mono','../tests/testmain.exe',]+cmdline_args
-    rc = subprocess.run(cmd_line, cwd=path+'/src', stdout=subprocess.PIPE, text=True, input=input, timeout=timeout)
-
-    return rc.stdout
 
 def callCPP(cmdline_args=[], input='', timeout=30, compiler='g++', enable_VS=True):
     """
@@ -656,7 +621,7 @@ def split(s):
     """
     return re.split('/|\\\\', s)
 
-def runTest(module_name):
+def runTest():
     """
     Run the unit tests defined in a module.
 
@@ -666,11 +631,8 @@ def runTest(module_name):
     runs the test suite using a TextTestRunner with verbosity set to 2, 
     and writes the test results to a file named 'result.txt'.
 
-    Args:
-        module_name: The module containing the unit tests to be executed.
-
     Example:
-        >>> runTest(my_test_module)
+        >>> runTest()
         Test test_directory_name
         result.testsRun tests completed successfully
     """
@@ -689,11 +651,19 @@ def runTest(module_name):
     sys.path.insert(0, testpath)
     sys.path.insert(0, os.path.join(current_dir,'src'))
 
-    #Run the tests
-    loader = unittest.TestLoader()
-    suite = loader.loadTestsFromModule(module_name)
+    test_file = os.path.join(testpath, 'tests.py')
 
+    #Run the tests
+    suite = unittest.TestSuite()
+    if os.path.exists(test_file):
+        loader = unittest.TestLoader()
+        suite.addTest(loader.discover(start_dir=testpath, pattern='tests.py'))
+    else:
+        print('No test file found!')
+        return
+    
     print('Test', os.path.basename(current_dir))
+
     result = unittest.TextTestRunner(verbosity=2).run(suite)
 
     #Write the result file

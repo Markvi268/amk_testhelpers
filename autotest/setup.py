@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as fh:
+with open("../README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
@@ -13,6 +13,11 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     license="MIT",
+    entry_points={
+        "console_scripts": [
+            "runtest=test_helpers.helpers:runTest",
+        ]
+    },
     url="https://github.com/Markvi268/test_package",
     classifiers=[
         "Programming Language :: Python :: 3.10",

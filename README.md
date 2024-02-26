@@ -15,8 +15,6 @@ This module provides a collection of utility functions for handling various task
 - dotNetNumbersFormat(): Retrieves the decimal and separator format for .NET.
 - callDotNet(): Executes .NET code.
 - callDotNetFunction(): Executes .NET code along with a specific function.
-- callMono(): Executes Mono code.
-- callMonoFunction(): Executes Mono code along with a specific function.
 - callCPP(): Executes C++ code.
 - callC(): Executes C code.
 - callCPPFunction(): Executes C++ code along with a specific function.
@@ -35,34 +33,15 @@ This module provides a collection of utility functions for handling various task
     ```
     pip install dist/autotest-0.0.1-py3-none-any.whl
     ```
-## test.py
-- from tests import tests
-- from test_helpers import runTest
-- runTest(tests)
 
 ## tests/tests.py
 - from test_helpers import *
 
+## Running tests
+1) Open a terminal
+2) Navigate to the root directory of your project which contains the 'tests' directory
+3) Type the command 'runtest' and press Enter. This will run the tests
+    
 
-## Run without python and .py command in Windows (Does not work in Powershell only Command Prompt)
-1) Check the default apps
-    * Right-click the windows icon
-    * System
-    * Settings
-    * Applications
-    * Default Apps
-    * Find python
-    * Select Python
-    * Specify .py file in Python
-
-2) Open a command prompt as administrator
-    ```
-    echo %PATHEXT%
-    ```
-    * If not found .PY run 
-        ```
-        setx PATHEXT "%PATHEXT%;.PY"
-        ```
-    * Restart computer
 ## **License**
 This module is distributed under the MIT License. See the [LISENCE.md](LISENCE.md) file for more information.
