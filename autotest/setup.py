@@ -15,7 +15,7 @@ setup(
     license="MIT",
     entry_points={
         "console_scripts": [
-            "runtest=test_helpers.helpers:runTest",
+            "test_assigment=test_helpers.helpers:runTest",
         ]
     },
     url="https://github.com/Markvi268/test_package",

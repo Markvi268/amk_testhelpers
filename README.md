@@ -41,6 +41,20 @@ This module provides a collection of utility functions for handling various task
 1) Open a terminal
 2) Navigate to the root directory of your project which contains the 'tests' directory
 3) Type the command 'runtest' and press Enter. This will run the tests
+4) On Linux (Ubuntu), change the bashrc file (if the path is not specified) by adding the path to the file
+    ```
+    nano ~/.bashrc
+    ```
+    # Example:
+
+    * pip show autotest
+    
+    -  Location: ../.local/lib/python3.10/site-packages
+
+    * Find location, copy path and add this to the end of the file
+    ```
+    export PATH="$PATH:<YOUR OWN LOCATION PATH>"
+    ```
     
 
 ## **License**
