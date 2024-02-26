@@ -40,7 +40,7 @@ This module provides a collection of utility functions for handling various task
 ## Running tests
 1) Open a terminal
 2) Navigate to the root directory of your project which contains the 'tests' directory
-3) Type the command 'runtest' and press Enter. This will run the tests
+3) Type the command 'test_assigment' and press Enter. This will run the tests
 4) On Linux (Ubuntu), change the bashrc file (if the path is not specified) by adding the path to the file
     ```
     nano ~/.bashrc
