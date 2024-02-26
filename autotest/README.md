@@ -31,9 +31,9 @@ This module provides a collection of utility functions for handling various task
 
 ## Installation
 1) Clone repository
-2) Navigate to current directory
+2) Navigate to ../test_package/autotest in cmd
     ```
-    pip install dist/test_package-0.0.1-py3-none-any.whl
+    pip install dist/autotest-0.0.1-py3-none-any.whl
     ```
 ## test.py
 - from tests import tests
@@ -44,7 +44,7 @@ This module provides a collection of utility functions for handling various task
 - from test_helpers import *
 
 
-## Run without python and .py command in Windows (Not work in PowesShell only Command Prompt)
+## Run without python and .py command in Windows (Does not work in Powershell only Command Prompt)
 1) Check the default apps
     * Right-click the windows icon
     * System

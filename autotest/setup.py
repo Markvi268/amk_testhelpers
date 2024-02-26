@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="test_package",
+    name="autotest",
     version="0.0.1",
     author="Markku Viertokangas",
     author_email="markku.viertokangas@hotmail.com",

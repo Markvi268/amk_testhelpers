@@ -698,7 +698,7 @@ def runTest(module_name):
 
     #Write the result file
     outputfile=open(resultfile, 'wt')
-    outputfile.write('{0}\t{1}'.format(module_name.started(), module_name.completed()))
+    outputfile.write('{0}\t{1}'.format(result.testsRun, result.testsRun - len(result.failures)))
     outputfile.close()  
     if result.errors or result.failures:
         failed_tests = len(result.errors) + len(result.failures)
