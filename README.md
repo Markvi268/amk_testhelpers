@@ -32,6 +32,9 @@ This packed provides a collection of utility functions for handling various task
 1) Clone repository
 2) Navigate to ../test_package/autotest in cmd
     ```
+    python setup.py sdist bdist_wheel
+    ```
+    ```
     pip install dist/amk_autotest-0.0.1-py3-none-any.whl
     ```
 
