@@ -4,7 +4,7 @@ with open("../README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="autotest",
+    name="amk_autotest",
     version="0.0.1",
     author="Markku Viertokangas",
     author_email="markku.viertokangas@hotmail.com",
@@ -15,7 +15,7 @@ setup(
     license="MIT",
     entry_points={
         "console_scripts": [
-            "test_assigment=test_helpers.helpers:runTest",
+            "test_assigment=amk_autotest.helpers:runTest",
         ]
     },
     url="https://github.com/Markvi268/test_package",

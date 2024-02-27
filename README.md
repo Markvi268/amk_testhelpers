@@ -1,7 +1,8 @@
-# Testing module
+# Testing package
+
 ## Overview
 
-This module provides a collection of utility functions for handling various tasks and executing code snippets for testing purposes. It offers functionalities for running Python, C/C++, and .NET code, handling file paths, executing tests, and managing subprocesses efficiently.
+This packed provides a collection of utility functions for handling various tasks and executing code snippets for testing purposes. It offers functionalities for running Python, C/C++, and .NET code, handling file paths, executing tests, and managing subprocesses efficiently.
 
 # Functions
 - getpath(): Retrieves the path to the root directory of the current project.
@@ -31,17 +32,16 @@ This module provides a collection of utility functions for handling various task
 1) Clone repository
 2) Navigate to ../test_package/autotest in cmd
     ```
-    pip install dist/autotest-0.0.1-py3-none-any.whl
+    pip install dist/amk_autotest-0.0.1-py3-none-any.whl
     ```
 
 ## tests/tests.py
-- from test_helpers import *
+- from amk_autotest import *
 
 ## Running tests
 1) Open a terminal
 2) Navigate to the root directory of your project which contains the 'tests' directory
-3) Type the command 'test_assigment' and press Enter. This will run the tests
-4) On Linux (Ubuntu), change the bashrc file (if the path is not specified) by adding the path to the file
+3) On Linux (Ubuntu), change the bashrc file (if the path is not specified) by adding the path to the file
     ```
     nano ~/.bashrc
     ```
@@ -55,7 +55,7 @@ This module provides a collection of utility functions for handling various task
     ```
     export PATH="$PATH:<YOUR OWN LOCATION PATH>"
     ```
-    
+4) Type the command 'test_assigment' and press Enter. This will run the tests
 
 ## **License**
 This module is distributed under the MIT License. See the [LISENCE.md](LISENCE.md) file for more information.

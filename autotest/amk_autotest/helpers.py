@@ -149,12 +149,6 @@ def loadmycode(codefile='src/my_code.py'):
     Returns:
         str: Loaded Python code as a string.
 
-    Note:
-        This function attempts to read the Python code from the specified file using
-        multiple encodings until successful or until all encodings have been attempted.
-        If the file cannot be decoded using any of the attempted encodings, a 
-        UnicodeDecodeError is raised.
-
     """
     for encoding in ['latin1', 'utf8','utf16','cp437']:
         try:
@@ -188,8 +182,7 @@ def callpython(cmdline_args=[], input='', timeout=30):
     Note:
         This function executes the Python script using the 'subprocess' module. It captures the standard output
         of the script and returns it as a string. If the execution exceeds the specified timeout, a 
-        subprocess.TimeoutExpired exception is raised. If the Python interpreter is not found or if the 
-        'my_code.py' file does not exist, a FileNotFoundError is raised.
+        subprocess.TimeoutExpired exception is raised.
 
     """
     path = os.getcwd()
@@ -249,10 +242,6 @@ def load_python_code():
 
     Returns:
         str: Contents of the Python script 'my_code.py'.
-
-    Raises:
-        FileNotFoundError: If the 'my_code.py' file is not found in the 'src' directory.
-
     """
     file_name=getpath()+'/src/my_code.py'
     with open(file_name) as f:
@@ -268,8 +257,6 @@ def dotNetProjectName():
     Returns:
         str: Name of the .NET project without the extension.
 
-    Raises:
-        FileNotFoundError: If no .csproj files are found in the current directory.
     """
     project_files=glob.glob('*.csproj')
     project_file=project_files[0]
@@ -280,7 +267,10 @@ def dotNetNumbersFormat():
     """
     Get the numeric format settings used by the system.
 
-    This function uses the `locale` module to retrieve the numeric format settings (such as the negative sign and decimal point) from the system. It sets the locale to the default system locale and then retrieves the numeric formatting information. If the system does not provide a negative sign, it defaults to '-'.
+    This function uses the `locale` module to retrieve the numeric format settings 
+    (such as the negative sign and decimal point) from the system. 
+    It sets the locale to the default system locale and then retrieves the numeric formatting information. 
+    If the system does not provide a negative sign, it defaults to '-'.
 
     Returns:
         Tuple[str, str]: A tuple containing the negative sign and the decimal point used by the system.
@@ -293,9 +283,6 @@ def dotNetNumbersFormat():
 
     See Also:
         https://docs.python.org/3/library/locale.html
-
-    Raises:
-        Error: If there is an error while retrieving the numeric format settings.
 
     """
     import locale
@@ -313,7 +300,11 @@ def callDotNet(cmdline_args=[], input='', timeout=30, build=True):
     """
     Execute a .NET program and return the output.
 
-    This function compiles and executes a .NET program located in the `src` directory of the current project. It first cleans up any temporary directories created during previous builds if the `build` parameter is set to True. Then, it compiles the source code using the `dotnet build` command. If the compilation fails, it falls back to a second attempt to compile using the same command. Finally, it executes the compiled program and returns the standard output.
+    This function compiles and executes a .NET program located in the `src` directory of the current project. 
+    It first cleans up any temporary directories created during previous builds if the `build` parameter is set to True. 
+    Then, it compiles the source code using the `dotnet build` command. 
+    If the compilation fails, it falls back to a second attempt to compile using the same command. 
+    Finally, it executes the compiled program and returns the standard output.
 
     Args:
         cmdline_args (list, optional): Additional command-line arguments to pass to the program. Defaults to [].
@@ -334,7 +325,7 @@ def callDotNet(cmdline_args=[], input='', timeout=30, build=True):
         The behavior of this function may vary depending on the environment and system configuration.
 
     """
-    path=getpath()
+    path=os.getcwd()
     project_name=dotNetProjectName()
 
     tmp_directories=['bin', 'obj']
