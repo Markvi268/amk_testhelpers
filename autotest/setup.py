@@ -12,10 +12,13 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
+    package_data={'amk_autotest': ['python/allowed_libraries.txt']},
     license="MIT",
     entry_points={
         "console_scripts": [
             "test_assigment=amk_autotest.helpers:runTest",
+            "allowed_libraries=amk_autotest.python.get_libraries:print_allowed_libraries",
+
         ]
     },
     url="https://github.com/Markvi268/test_package",

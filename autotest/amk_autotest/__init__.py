@@ -10,19 +10,7 @@ This package provides functions for:
 - Running tests.
 """
 
-from .helpers import getpath
-from .helpers import callpythoncode
-from .helpers import callpythonmaincode
-from .helpers import loadmycode
-from .helpers import callpython
-from .helpers import callpython_subprocess
-from .helpers import load_python_code
-from .helpers import dotNetProjectName
-from .helpers import dotNetNumbersFormat
-from .helpers import callDotNet
-from .helpers import callDotNetFunction
-from .helpers import callCPP
-from .helpers import callCPPFunction
-from .helpers import callCFunction
-from .helpers import callC
+from .cpp import helpers
+from .dotnet import helpers
+from .python import (helpers, get_libraries)
 from .helpers import runTest
