@@ -3,11 +3,12 @@
 Module for handling various utility functions and executing code for testing purposes.
 
 This module provides functions for running Python code snippets for testing purposes.
-It includes functions for executing code, running tests, and interacting with subprocesses.
+It includes functions for executing code, and interacting with subprocesses.
 
 Functions:
     - checkStudentImports(): Check the import statements in the student's code.
-    - checkLibExists(): Check if the required library exists in the student's code.
+    - checkAllowedLibraries(): Check student imports against the list of allowed libraries and print any missing ones.
+    - checkDeniedLibraries(): Check student imports against the list of denied libraries and raise an exception if any are found.
     - callpythoncode(): Executes Python code snippets.
     - callpythonmaincode(): Executes Python code snippets along with the main code.
     - loadmycode(): Loads the student's Python code.
@@ -41,35 +42,49 @@ def checkStudentImports():
     imports = [line.strip() for line in lines if line.startswith('import') or line.startswith('from')]
     return imports
 
-def checkAllowedLibraries(studentlibs):
+def checkAllowedLibraries():
     """
-    Check if the required library exists in the student's code.
+    Check student imports against the list of allowed libraries and print any missing ones.
 
-    Args:
-        libname (list): The name of the library to check.
-        studentlibs (list): A list of import statements in the student's code.
+    This function checks the libraries imported by the student against the list of allowed libraries
+    specified in the 'allowed_libraries.txt' file. If any imported libraries are not found in the
+    allowed list, they are printed as missing.
 
     Returns:
         None
-
-    Raises:
-        ImportError: If the required library is not found in the student's code.
     """
+    
+    studentlibs = checkStudentImports()
+    
     script_directory = os.path.dirname(os.path.abspath(__file__))
-    ALLOWED_LIBRARIES_FILE = os.path.join(script_directory, 'allowed_libraries.txt')
-    file = os.path.basename(ALLOWED_LIBRARIES_FILE)
-    if os.path.exists(ALLOWED_LIBRARIES_FILE):
-        with open(ALLOWED_LIBRARIES_FILE, 'r') as f:
+    file_path = os.path.join(script_directory, 'allowed_libraries.txt')
+
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as f:
             lines = f.readlines()
     else:
-        print(f"File {file} does not exist")
+        print(f"File {file_path} does not exist")
 
     lines = [line.strip() for line in lines]
     
-    missinglibs = [name for name in studentlibs if not any(name.split()[1] == item for item in lines)]
+    missinglibs = [name for name in studentlibs if not any(item in name for item in lines)]
     if missinglibs:
         print('Tearher has not allowed the following libraries:')
         print(f"Missing library: {missinglibs}")
+
+
+def checkDeniedLibraries(denied_libraries):
+    """
+    This function checks the libraries imported by the student against the list of denied libraries.
+
+    Specified in the 'denied_libraries' parameter. If any imported libraries are found in the denied list,
+    an exception is raised.
+    """
+    studentlibs = checkStudentImports()
+
+    deniedlibs = [name for name in studentlibs if any(item in name for item in denied_libraries)]
+    if deniedlibs:
+        raise Exception('You are not allowed to use the following libraries on this task: ' + str(deniedlibs))
 
 
 def callpythoncode(code, cmdline_args=[], input='', timeout=30):
@@ -175,7 +190,7 @@ def loadmycode(codefile='src/my_code.py'):
             pass
 
 #Run my_code.py
-def callpython(cmdline_args=[], input='', timeout=30):
+def callpython(cmdline_args=[], input='', timeout=30, denied_libs=[]):
     """
     Run a Python script with optional command-line arguments, input, and timeout.
 
@@ -202,7 +217,9 @@ def callpython(cmdline_args=[], input='', timeout=30):
 
     """
     path = os.getcwd()
-    checkAllowedLibraries(checkStudentImports())
+    checkAllowedLibraries()
+    if denied_libs:
+        checkDeniedLibraries(denied_libs)
 
     cmd_line=[sys.executable, 'my_code.py',]+cmdline_args
     try:

@@ -13,4 +13,4 @@ This package provides functions for:
 from .cpp import helpers
 from .dotnet import helpers
 from .python import (helpers, get_libraries)
-from .helpers import runTest
+from .execute_test import runTest

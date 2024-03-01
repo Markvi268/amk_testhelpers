@@ -3,7 +3,7 @@
 Module for handling various utility functions and executing code for testing purposes.
 
 This module provides functions for running C/C++ code snippets for testing purposes.
-It includes functions for executing code, handling file paths, running tests, and interacting with subprocesses.
+It includes functions for executing code, handling file paths, and interacting with subprocesses.
 
 Functions:
     - callCPP(): Executes C++ code.

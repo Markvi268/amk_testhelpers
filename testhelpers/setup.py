@@ -4,7 +4,7 @@ with open("../README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="amk_autotest",
+    name="amk_testhelpers",
     version="0.0.1",
     author="Markku Viertokangas",
     author_email="markku.viertokangas@hotmail.com",
@@ -12,12 +12,12 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    package_data={'amk_autotest': ['python/allowed_libraries.txt']},
+    package_data={'amk_testhelpers': ['python/allowed_libraries.txt']},
     license="MIT",
     entry_points={
         "console_scripts": [
-            "test_assigment=amk_autotest.helpers:runTest",
-            "allowed_libraries=amk_autotest.python.get_libraries:print_allowed_libraries",
+            "test_assignment=amk_testhelpers.execute_test:runTest",
+            "allowed_libraries=amk_testhelpers.python.get_libraries:print_allowed_libraries",
 
         ]
     },

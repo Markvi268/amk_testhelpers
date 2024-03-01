@@ -1,3 +1,9 @@
+"""
+This module is used to get the allowed libraries from the file allowed_libraries.txt
+Execute command 'allowed_libraries' to print the allowed libraries
+
+"""
+
 import os
 
 def print_allowed_libraries():
@@ -19,5 +25,3 @@ def print_allowed_libraries():
         print(line,end='')
     print()
     print('-'*32)
-    #with open(ALLOWED_LIBRARIES_FILE, 'r') as f:
-     #   print(f.readlines())

@@ -1,6 +1,6 @@
    # -*- coding: utf-8 -*-
 """
-Module for handling various utility functions and executing code for testing purposes.
+Module start point for running unit tests.
 
 Functions:
     - runTest(): Runs unit tests for the specified module.
