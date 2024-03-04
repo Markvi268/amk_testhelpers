@@ -20,6 +20,7 @@ import sys
 import subprocess
 import os
 import threading
+import glob
 
 def checkStudentImports():
     """
@@ -30,7 +31,11 @@ def checkStudentImports():
 
     return: List of import statements in the student's code.
     """
+    
     path = os.getcwd() + '/src/my_code.py'
+    module_name = glob.glob(os.getcwd() + '/**/*.py',recursive=True)
+    for i in module_name:
+        print(i)
 
     if os.path.exists(path):
         with open (path, 'r') as f:
@@ -40,6 +45,7 @@ def checkStudentImports():
         return []
     
     imports = [line.strip() for line in lines if line.startswith('import') or line.startswith('from')]
+
     return imports
 
 def checkAllowedLibraries():
@@ -53,7 +59,7 @@ def checkAllowedLibraries():
     Returns:
         None
     """
-    
+    import logging
     studentlibs = checkStudentImports()
     
     script_directory = os.path.dirname(os.path.abspath(__file__))
@@ -69,8 +75,10 @@ def checkAllowedLibraries():
     
     missinglibs = [name for name in studentlibs if not any(item in name for item in lines)]
     if missinglibs:
-        print('Tearher has not allowed the following libraries:')
-        print(f"Missing library: {missinglibs}")
+        print('*'*40)
+        logging.warning('These libraries in not allowed:')
+        print(f"{missinglibs}")
+        print('*'*40)
 
 
 def checkDeniedLibraries(denied_libraries):
