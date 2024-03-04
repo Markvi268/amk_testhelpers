@@ -1,4 +1,4 @@
-# Testing package
+# Test helpers package
 
 ## Overview
 
@@ -33,12 +33,12 @@ This packed provides a collection of utility functions for handling various task
 
 ## Installation
 1) Clone repository
-2) Navigate to ../test_package/testhelpers in cmd
+2) Navigate to ../amk_testhelpers in cmd
     ```
     python setup.py sdist bdist_wheel
     ```
     ```
-    pip install dist/amk_testhelpers-0.0.1-py3-none-any.whl
+    pip install .
     ```
 
 ## tests/tests.py in Python

@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-with open("../README.md", "r") as fh:
+with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
@@ -12,7 +12,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    package_data={'amk_testhelpers': ['python/allowed_libraries.txt']},
+    package_data={'': ['python/allowed_libraries.txt']},
     license="MIT",
     entry_points={
         "console_scripts": [
@@ -21,7 +21,7 @@ setup(
 
         ]
     },
-    url="https://github.com/Markvi268/test_package",
+    url="https://github.com/Markvi268/amk_testhelpers",
     classifiers=[
         "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",

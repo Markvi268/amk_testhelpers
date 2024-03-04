@@ -1,5 +1,4 @@
-"""
-Package for handling various helper functions.
+"""Package for handling various helper functions.
 
 This package provides functions for:
 - Managing file paths.

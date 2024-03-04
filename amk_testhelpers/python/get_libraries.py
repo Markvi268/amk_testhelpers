@@ -6,10 +6,15 @@ Execute command 'allowed_libraries' to print the allowed libraries
 
 import os
 
-def print_allowed_libraries():
+def print_allowed_libraries() -> None:
+    """Print the allowed libraries from the file allowed_libraries.txt
+
+    """
     script_directory = os.path.dirname(os.path.abspath(__file__))
     ALLOWED_LIBRARIES_FILE = os.path.join(script_directory, 'allowed_libraries.txt')
     file = os.path.basename(ALLOWED_LIBRARIES_FILE)
+    
+    lines: list[str] = []
     if os.path.exists(ALLOWED_LIBRARIES_FILE):
         print(f"File {file} exists")
         with open(ALLOWED_LIBRARIES_FILE, 'r') as f:
