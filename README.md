@@ -73,9 +73,9 @@ This packed provides a collection of utility functions for handling various task
 ## Directory structure
 * Project
     - -src
-    -    -main.py
+        -  -main.py
     - -tests
-    -    -tests.py
+        -  -tests.py
 
 ## Get allowed libraries
 - Type command "allowed_libraries". This show which libraries as allowed
