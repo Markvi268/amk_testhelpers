@@ -52,7 +52,8 @@ This packed provides a collection of utility functions for handling various task
 ## Running tests
 1) Open a terminal
 2) Navigate to the root directory of your project which contains the 'tests' directory
-3) On Linux (Ubuntu), change the bashrc file (if the path is not specified) by adding the path to the file
+3) Type the command 'test_assignment' and press Enter. This will run the tests
+4) On Linux (Ubuntu), change the bashrc file (if the path is not specified) by adding the path to the file
     ```
     nano ~/.bashrc
     ```
@@ -66,7 +67,17 @@ This packed provides a collection of utility functions for handling various task
     ```
     export PATH="$PATH:<YOUR OWN LOCATION PATH>"
     ```
+    * Save settings
 4) Type the command 'test_assignment' and press Enter. This will run the tests
 
+## Directory structure
+* Project
+    -src
+        -main.py
+    -tests
+        -tests.py
+
+## Get allowed libraries
+- Type command "allowed_libraries". This show which libraries as allowed
 ## **License**
 This module is distributed under the MIT License. See the [LISENCE.md](LISENCE.md) file for more information.
