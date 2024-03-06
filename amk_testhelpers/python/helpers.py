@@ -7,9 +7,10 @@ It includes functions for executing code, and interacting with subprocesses.
 
 Functions
 ---------
-    - checkImports(): Check the import statements in the code.
-    - checkAllowedLibraries(): Check student imports against the list of allowed libraries and print any missing ones.
-    - checkDeniedLibraries(): Check student imports against the list of denied libraries and raise an exception if any are found.
+    - read_file(): Read the contents of a file located at the specified file path.
+    - checkimports(): Check the import statements in the code.
+    - checkallowedlibraries(): Check student imports against the list of allowed libraries and print any missing ones.
+    - checkdeniedlibraries(): Check student imports against the list of denied libraries and raise an exception if any are found.
     - callpythoncode(): Executes Python code snippets.
     - callpythonmaincode(): Executes Python code snippets along with the main code.
     - loadmycode(): Loads the student's Python code.
@@ -24,7 +25,35 @@ import threading
 import glob
 
 
-def checkImports() -> list[str]:
+
+def read_file(file_path: str) -> list[str]:
+    """ Read the contents of a file located at the specified file path.
+
+    Parameters
+    ----------
+    file_path : str
+        The path to the file to read.
+
+    Returns
+    -------
+    list[str]
+        A list of strings representing the contents of the file.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the file is not found at the specified path.
+    """
+    try:
+        with open(file_path, 'r') as file:
+            contents:list[str] = file.readlines()
+    except FileNotFoundError:
+        raise FileNotFoundError(f'File not found at the specified path: {file_path}')
+    
+    return contents
+
+
+def checkimpors() -> list[str]:
     """
     Check imports in a Python file located in the current directory.
 
@@ -33,11 +62,6 @@ def checkImports() -> list[str]:
     list[str]
         A list of import statements found in the first Python file within the 'src' directory.
 
-    Raises
-    ------
-    FileNotFoundError
-        If the '.py' file not found in the 'src' directory.
-
     Notes
     -----
     This function checks for import statements in the first Python file found within the 'src' directory.
@@ -45,20 +69,16 @@ def checkImports() -> list[str]:
 
     """
     
-    module_name = glob.glob(os.getcwd() + '/src/*.py')
-    path = module_name[0]
+    module_name:list[str] = glob.glob(os.getcwd() + '/src/*.py')
+    path:str = module_name[0]
 
-    if os.path.exists(path):
-        with open (path, 'r') as f:
-            lines = f.readlines()
-    else:
-        raise FileNotFoundError(f'.py file not found in the src directory: {path}')
-    
-    imports = [line.strip() for line in lines if line.startswith('import') or line.startswith('from')]
+    imports_file = read_file(path)
+
+    imports = [line.strip() for line in imports_file if line.startswith('import') or line.startswith('from')]
 
     return imports
 
-def checkAllowedLibraries() -> None:
+def checkallowedlibraries() -> None:
     """
     This function checks the libraries imported by the student against the list of allowed libraries
     specified in the 'allowed_libraries.txt' file. If any imported libraries are not found in the
@@ -70,33 +90,27 @@ def checkAllowedLibraries() -> None:
 
     Examples
     --------
-    WARNING:root:These libraries in not allowed:
+    WARNING!! These libraries is not installed in the checking machine:
     ['import os', 'from sklearn.decomposition import PCA']
     """
-    import logging
-    studentlibs = checkImports()
+    imports = checkimpors()
     
     script_directory = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(script_directory, 'allowed_libraries.txt')
 
-    lines: list[str] = []
-    if os.path.exists(file_path):
-        with open(file_path, 'r') as f:
-            lines = f.readlines()
-    else:
-        print(f"File {file_path} does not exist")
+    allowed_libraries_file = read_file(file_path)
 
-    lines = [line.strip() for line in lines]
+    lines = [line.strip() for line in allowed_libraries_file]
     
-    missinglibs = [name for name in studentlibs if not any(item in name for item in lines)]
-    if missinglibs:
+    missing_libraries = [name for name in imports if not any(item in name for item in lines)]
+    if missing_libraries:
         print('*'*40)
-        logging.warning('These libraries in not allowed:')
-        print(f"{missinglibs}")
+        print('WARNING!! These libraries is not installed in the checking machine:')
+        print(f"{missing_libraries}")
         print('*'*40)
 
 
-def checkDeniedLibraries(denied_libraries: list[str]) -> None:
+def checkdeniedlibraries(denied_libraries: list[str]) -> None:
     """
     This function checks the libraries imported by the student against the list of denied libraries.
 
@@ -113,14 +127,14 @@ def checkDeniedLibraries(denied_libraries: list[str]) -> None:
     Exception
         If any imported libraries are found in the denied list.
     """
-    studentlibs = checkImports()
+    imports = checkimpors()
 
-    deniedlibs = [name for name in studentlibs if any(item in name for item in denied_libraries)]
+    deniedlibs = [name for name in imports if any(item in name for item in denied_libraries)]
     if deniedlibs:
         raise Exception('You are not allowed to use the following libraries on this task: ' + str(deniedlibs))
 
 
-def callpythoncode(code:str='', cmdline_args:list[str] =[], input:str='', timeout:int=30) -> str:
+def callpythoncode(code:str='', cmdline_args:list[str] =[], input:str='', timeout:int=30, denied_libraries:list[str] =[]) -> str:
     """
     Execute the provided Python code in a separate process.
 
@@ -153,6 +167,10 @@ def callpythoncode(code:str='', cmdline_args:list[str] =[], input:str='', timeou
     """
 
     path = os.getcwd()
+
+    checkallowedlibraries()
+    if denied_libraries:
+        checkdeniedlibraries(denied_libraries=denied_libraries)
 
     testcodefile='tests/my_test_code.py'
     f=open(testcodefile, "w")
@@ -274,9 +292,9 @@ def callpython(cmdline_args:list[str] = [], input:str='', denied_libs:list[str] 
         If no Python file is found in the 'src' directory.
     """
 
-    checkAllowedLibraries()
+    checkallowedlibraries()
     if denied_libs:
-        checkDeniedLibraries(denied_libs)
+        checkdeniedlibraries(denied_libraries=denied_libs)
 
     current_directory = os.path.join(os.getcwd(), 'src')
 
