@@ -74,10 +74,10 @@ This packed provides a collection of utility functions for handling various task
 ## Directory structure
 * Assignment
     * Task1
-    -    -src
-    -        -main.py
-    -    -tests
-    -        -tests.py
+        - -src
+           - -main.py
+      - -tests
+        - -tests.py
     * Task2...
 
 ## Get allowed libraries
