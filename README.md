@@ -25,6 +25,7 @@ This packed provides a collection of utility functions for handling various task
 
 ## amk_testhelpers/execute_test.py
 - runTest(): Runs unit tests for the specified module.
+- runalltests(): Runs all tests in the current directory and writes the results to a file named 'result.txt'
 
 ## Usage
 - Make use of the provided functions to execute code snippets in various languages.
@@ -34,32 +35,31 @@ This packed provides a collection of utility functions for handling various task
 ## Installation
 1) Clone repository
 2) Navigate to ../amk_testhelpers in cmd
+    * Windows
     ```
     python setup.py sdist bdist_wheel
+    ```
+    * Linux
+    ```
+    python3 setup.py sdist bdist_wheel
     ```
     ```
     pip install .
     ```
 
-## tests/tests.py in Python
-- from amk_testhelpers.python import *
-## tests/tests.py in .Net
-- from amk_testhelpers.dotnet import *
-## tests/tests.py in C/CPP
-- from amk_testhelpers.cpp import *
+## tests/tests.py
+- from amk_testhelpers import *
 
 
 ## Running tests
 1) Open a terminal
-2) Navigate to the root directory of your project which contains the 'tests' directory
-3) Type the command 'test_assignment' and press Enter. This will run the tests
-4) On Linux (Ubuntu), change the bashrc file (if the path is not specified) by adding the path to the file
+2) On Linux (Ubuntu), change the bashrc file (if the path is not specified) by adding the path to the file
     ```
     nano ~/.bashrc
     ```
     # Example:
 
-    * pip show autotest
+    * pip show amk_testhelpers
     
     -  Location: ../.local/lib/python3.10/site-packages
 
@@ -68,16 +68,22 @@ This packed provides a collection of utility functions for handling various task
     export PATH="$PATH:<YOUR OWN LOCATION PATH>"
     ```
     * Save settings
-4) Type the command 'test_assignment' and press Enter. This will run the tests
+2) Navigate to the root directory of your project which contains the 'tests' directory (../Task1). Example below
+3) Type the command 'test_assignment' and press Enter. This will run the test
 
 ## Directory structure
-* Project
-    - -src
-        -  -main.py
-    - -tests
-        -  -tests.py
+* Assignment
+    * Task1
+    -    -src
+    -        -main.py
+    -    -tests
+    -        -tests.py
+    * Task2...
 
 ## Get allowed libraries
-- Type command "allowed_libraries". This show which libraries as allowed
+- ../Assignment type command "allowed_libraries". This show which libraries as allowed
+
+## Run all tests
+- ../Assignment type command "testall". This will start tests of all tasks
 ## **License**
 This module is distributed under the MIT License. See the [LISENCE.md](LISENCE.md) file for more information.

@@ -7,10 +7,10 @@ It includes functions for executing code, and interacting with subprocesses.
 
 Functions
 ---------
-    - read_file(): Read the contents of a file located at the specified file path.
-    - checkimports(): Check the import statements in the code.
-    - checkallowedlibraries(): Check student imports against the list of allowed libraries and print any missing ones.
-    - checkdeniedlibraries(): Check student imports against the list of denied libraries and raise an exception if any are found.
+    - _read_file(): Read the contents of a file located at the specified file path.
+    - _checkimports(): Check the import statements in the code.
+    - _checkallowedlibraries(): Check student imports against the list of allowed libraries and print any missing ones.
+    - _checkdeniedlibraries(): Check student imports against the list of denied libraries and raise an exception if any are found.
     - callpythoncode(): Executes Python code snippets.
     - callpythonmaincode(): Executes Python code snippets along with the main code.
     - loadmycode(): Loads the student's Python code.
@@ -26,7 +26,7 @@ import glob
 
 
 
-def read_file(file_path: str) -> list[str]:
+def _read_file(file_path: str) -> list[str]:
     """ Read the contents of a file located at the specified file path.
 
     Parameters
@@ -53,7 +53,7 @@ def read_file(file_path: str) -> list[str]:
     return contents
 
 
-def checkimpors() -> list[str]:
+def _checkimpors() -> list[str]:
     """
     Check imports in a Python file located in the current directory.
 
@@ -69,16 +69,16 @@ def checkimpors() -> list[str]:
 
     """
     
-    module_name:list[str] = glob.glob(os.getcwd() + '/src/*.py')
-    path:str = module_name[0]
+    module_name = glob.glob(os.getcwd() + '/src/*.py')
+    path = module_name[0]
 
-    imports_file = read_file(path)
+    imports_file = _read_file(path)
 
     imports = [line.strip() for line in imports_file if line.startswith('import') or line.startswith('from')]
 
     return imports
 
-def checkallowedlibraries() -> None:
+def _checkallowedlibraries() -> None:
     """
     This function checks the libraries imported by the student against the list of allowed libraries
     specified in the 'allowed_libraries.txt' file. If any imported libraries are not found in the
@@ -93,12 +93,12 @@ def checkallowedlibraries() -> None:
     WARNING!! These libraries is not installed in the checking machine:
     ['import os', 'from sklearn.decomposition import PCA']
     """
-    imports = checkimpors()
+    imports = _checkimpors()
     
     script_directory = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(script_directory, 'allowed_libraries.txt')
 
-    allowed_libraries_file = read_file(file_path)
+    allowed_libraries_file = _read_file(file_path)
 
     lines = [line.strip() for line in allowed_libraries_file]
     
@@ -110,7 +110,7 @@ def checkallowedlibraries() -> None:
         print('*'*40)
 
 
-def checkdeniedlibraries(denied_libraries: list[str]) -> None:
+def _checkdeniedlibraries(denied_libraries: list[str]) -> None:
     """
     This function checks the libraries imported by the student against the list of denied libraries.
 
@@ -127,7 +127,7 @@ def checkdeniedlibraries(denied_libraries: list[str]) -> None:
     Exception
         If any imported libraries are found in the denied list.
     """
-    imports = checkimpors()
+    imports = _checkimpors()
 
     deniedlibs = [name for name in imports if any(item in name for item in denied_libraries)]
     if deniedlibs:
@@ -168,9 +168,9 @@ def callpythoncode(code:str='', cmdline_args:list[str] =[], input:str='', timeou
 
     path = os.getcwd()
 
-    checkallowedlibraries()
+    _checkallowedlibraries()
     if denied_libraries:
-        checkdeniedlibraries(denied_libraries=denied_libraries)
+        _checkdeniedlibraries(denied_libraries=denied_libraries)
 
     testcodefile='tests/my_test_code.py'
     f=open(testcodefile, "w")
@@ -263,7 +263,7 @@ def loadmycode(codefile:str='src/my_code.py') -> str:
     return my_code
 
 #Run my_code.py
-def callpython(cmdline_args:list[str] = [], input:str='', denied_libs:list[str] = [], timeout:int=30) -> str:
+def callpython(cmdline_args:list[str] = [], input:str='', timeout:int=30,denied_libs:list[str] = []) -> str:
     """
     Execute a Python script located in the 'src' directory with specified command-line arguments and input.
 
@@ -276,10 +276,10 @@ def callpython(cmdline_args:list[str] = [], input:str='', denied_libs:list[str] 
         Command-line arguments to pass to the executed script (default []). 
     input : str, optional
         Input to provide to the executed script (default '').
-    denied_libs : list[str], optional
-        List of denied libraries. If provided, the function checks if the script uses any of these libraries (default []). 
     timeout : int, optional
         Maximum time (in seconds) to allow the script execution before timing out (default 30).
+    denied_libs : list[str], optional
+        List of denied libraries. If provided, the function checks if the script uses any of these libraries (default []). 
 
     Returns
     -------
@@ -292,9 +292,9 @@ def callpython(cmdline_args:list[str] = [], input:str='', denied_libs:list[str] 
         If no Python file is found in the 'src' directory.
     """
 
-    checkallowedlibraries()
+    _checkallowedlibraries()
     if denied_libs:
-        checkdeniedlibraries(denied_libraries=denied_libs)
+        _checkdeniedlibraries(denied_libraries=denied_libs)
 
     current_directory = os.path.join(os.getcwd(), 'src')
 
@@ -350,7 +350,7 @@ def callpython_subprocess(cmdline_args:list[str]=[], input:str='', timeout:int=3
     Any exceptions that occur during the script execution will not be raised immediately in the
     main thread but can be handled by checking the status of the Thread object.
     """
-    th=threading.Thread(target=callpython, args=(cmdline_args, input, timeout))
+    th=threading.Thread(target=callpython, args=(cmdline_args , input ,timeout))
     th.start()
     return th
 

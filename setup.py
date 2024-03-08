@@ -12,11 +12,12 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    package_data={'': ['python/allowed_libraries.txt']},
+    package_data={'': ['python/allowed_libraries.txt','python/__init__.pyi','cpp/__init__.pyi','dotnet/__init__.pyi','__init__.pyi']},
     license="MIT",
     entry_points={
         "console_scripts": [
-            "test_assignment=amk_testhelpers.execute_test:runTest",
+            "test_assignment=amk_testhelpers.execute_test:runtest",
+            "testall= amk_testhelpers.execute_test:runalltests",
             "allowed_libraries=amk_testhelpers.python.get_libraries:print_allowed_libraries",
 
         ]

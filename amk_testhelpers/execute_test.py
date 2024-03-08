@@ -3,15 +3,16 @@
 Module start point for running unit tests.
 
 Functions:
-    - runTest(): Runs unit tests for the specified module.
+    - runtest(): Runs unit tests for the specified module.
+    - runalltests(): Runs unit tests for all modules in the current directory.
 """
 
 import os
 import unittest
+import subprocess
 
 
-
-def runTest():
+def runtest() -> None:
     """
     Run the unit tests defined in a module.
 
@@ -21,10 +22,6 @@ def runTest():
     runs the test suite using a TextTestRunner with verbosity set to 2, 
     and writes the test results to a file named 'result.txt'.
 
-    Example:
-        >>> runTest()
-        Test test_directory_name
-        running_tests tests completed successfully
     """
 
     #Get the path to the test directory
@@ -67,3 +64,38 @@ def runTest():
         print(f"{failed_tests}/{running_tests} tests failed!!")
     else:
         print(f"{running_tests} tests completed successfully!")
+
+
+def runalltests() -> None:
+    """ This function runs all tests in the current directory and writes the results to a file named 'result.txt'.
+    
+    """
+
+    import time
+    if os.path.exists(os.getcwd() + '/result.txt'):
+        print('Removing old result file...')
+        os.remove(os.getcwd() + '/result.txt')
+        time.sleep(1)
+
+    resultfile = open(os.getcwd() + '/result.txt', 'wt')
+    skiplist=['ex_template', 'helpers']
+
+    for file in os.listdir(os.getcwd()):
+        if file in skiplist:
+            continue
+        if os.path.isdir(file):
+            os.chdir(file)
+            command = ['test_assignment']
+            print(f'Starting tests for {file}...')
+            subprocess.run(command, cwd=os.getcwd())
+            try:
+                test_result_file = open(os.getcwd() + '/tests/result.txt', 'rt')
+                result = test_result_file.read()
+                test_result_file.close()
+                resultfile.write(f"{file}\t{result}\n")
+            except FileNotFoundError:
+                print(f'{file} test result file not found!')
+                resultfile.write(f"{file}\t0\t0\n")
+
+            os.chdir('..')
+    resultfile.close()
