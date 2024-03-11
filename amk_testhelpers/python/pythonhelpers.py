@@ -235,32 +235,54 @@ def callpythonmaincode(code:str='', cmdline_args:list[str]=[], input:str='', tim
     return callpythoncode(code=my_code+code, cmdline_args=cmdline_args, input=input, timeout=timeout)
 
 #Load student code
-def loadmycode(codefile:str='src/my_code.py') -> str:
+def loadmycode(codefile:str='') -> str:
     """
     This function attempts to read the Python code from the file specified by the 'codefile'
     parameter. It tries different encodings ('latin1', 'utf8', 'utf16', 'cp437') to decode
     the file content until successful or until all encodings have been attempted.
+    Load codefile from src directory.
+    If parameter 'codefile' is not provided, the function attempts to read the first Python file in src directory.
 
     Parameters
     ----------
     codefile : str, optional
-       codefile (str, optional): Path to the Python code file to load (default 'src/my_code.py').
+       codefile (str, optional): Path to the Python code file to load (default '').
 
     Returns
     -------
     str
         Loaded Python code as a string.
+
+    Raises
+    ------
+    FileNotFoundError
+        If Python file is not found in the 'src' directory.
+
+    Examples
+    --------
+    >>> my_code = loadmycode('main.py')
+    >>> print(my_code)
     """
     my_code:str = ''
-    for encoding in ['latin1', 'utf8','utf16','cp437']:
-        try:
-            with open(codefile, encoding=encoding) as f:
-                my_code = f.read()
-        except FileNotFoundError:
-            print('File not found:', codefile)
-            return ''
-
+    src_directory = os.path.join(os.getcwd(), 'src')
+    py_files = [entry.name for entry in os.scandir(src_directory) if entry.name.endswith('.py')]
+    if codefile:
+        current_file = src_directory + '/'+ codefile
+    else:
+        current_file = src_directory + '/'+ py_files[0]
+    if os.path.exists(current_file):
+        for encoding in ['latin1', 'utf8','utf16','cp437']:
+            try:
+                with open(current_file, encoding=encoding) as f:
+                    my_code = f.read()
+                break
+            except:
+                pass
+    else:
+        raise FileNotFoundError(f'Python file not found in the directory: {os.getcwd()}')
+        
     return my_code
+    
 
 #Run my_code.py
 def callpython(cmdline_args:list[str] = [], input:str='', timeout:int=30,denied_libs:list[str] = []) -> str:
@@ -355,25 +377,14 @@ def callpython_subprocess(cmdline_args:list[str]=[], input:str='', timeout:int=3
     return th
 
 def load_python_code() -> str:
-    """
-    Load Python code from a file located in the 'src' directory.
+    """This function is deprecated and will be removed in the future. Use loadmycode() instead.
 
     Returns
     -------
     str
-        Contents of the Python file as a string.
-
-    Raises
-    ------
-    FileNotFoundError
-        If no Python file is found in the 'src' directory.
+        The loaded Python code as a string.
     """
-    try:
-        src_directory = os.path.join(os.getcwd(), 'src')
-        py_files = [entry.name for entry in os.scandir(src_directory) if entry.name.endswith('.py')]
-        current_file = src_directory + '/'+ py_files[0]
-        with open(current_file) as f:
-            contents = f.read()
-    except FileNotFoundError:
-        raise FileNotFoundError(f'Python file not found in the src directory: {os.getcwd()}')
-    return contents
+    print('*'*40)
+    print('Warning!!! This function is deprecated and will be removed in the future. Use loadmycode() instead.')
+    print('*'*40)
+    return loadmycode()

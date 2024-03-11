@@ -67,20 +67,21 @@ def runtest() -> None:
 
 
 def runalltests() -> None:
-    """ This function runs all tests in the current directory and writes the results to a file named 'result.txt'.
+    """ This function runs all tests in the current directory and writes the results to a file named 'results.txt'.
     
     """
 
     import time
-    if os.path.exists(os.getcwd() + '/result.txt'):
-        print('Removing old result file...')
-        os.remove(os.getcwd() + '/result.txt')
+    path = os.getcwd()
+    if os.path.exists(path + '/results.txt'):
+        print('Removing old results file...')
+        os.remove(path + '/results.txt')
         time.sleep(1)
 
-    resultfile = open(os.getcwd() + '/result.txt', 'wt')
+    resultfile = open(path + '/results.txt', 'wt')
     skiplist=['ex_template', 'helpers']
 
-    for file in os.listdir(os.getcwd()):
+    for file in os.listdir(path):
         if file in skiplist:
             continue
         if os.path.isdir(file):

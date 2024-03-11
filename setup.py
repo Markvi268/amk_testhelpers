@@ -16,15 +16,15 @@ setup(
     license="MIT",
     entry_points={
         "console_scripts": [
-            "test_assignment=amk_testhelpers.execute_test:runtest",
-            "testall= amk_testhelpers.execute_test:runalltests",
-            "allowed_libraries=amk_testhelpers.python.get_libraries:print_allowed_libraries",
+            "test_assignment=amk_testhelpers._execute_test:runtest",
+            "testall= amk_testhelpers._execute_test:runalltests",
+            "allowed_libraries=amk_testhelpers.python._get_libraries:print_allowed_libraries",
 
         ]
     },
     url="https://github.com/Markvi268/amk_testhelpers",
     classifiers=[
-        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
