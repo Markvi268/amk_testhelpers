@@ -9,7 +9,7 @@ This package provides functions for:
 """
 
 from amk_testhelpers.cpp.cpphelpers import(callC, callCPP, callCFunction, callCPPFunction)
-from amk_testhelpers.dotnet.dotnethelpers import (callDotNet,callDotNetFunction)
+from amk_testhelpers.dotnet.dotnethelpers import (callDotNet,callDotNetFunction,dotNetNumbersFormat)
 from amk_testhelpers.python.pythonhelpers import (
     callpython,
     callpythoncode,
@@ -27,7 +27,8 @@ __all__ = [
     'callCFunction', 
     'callCPPFunction', 
     'callDotNet', 
-    'callDotNetFunction', 
+    'callDotNetFunction',
+    'dotNetNumbersFormat', 
     'callpython', 
     'callpythoncode', 
     'callpythonmaincode', 

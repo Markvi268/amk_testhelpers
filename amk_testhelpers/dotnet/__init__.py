@@ -7,7 +7,8 @@ This submodule provides functions for:
 from amk_testhelpers.dotnet.dotnethelpers import(
     callDotNetFunction,
     callDotNet,
+    dotNetNumbersFormat
     
 )
 
-__all__ = ['callDotNetFunction', 'callDotNet']
+__all__ = ['callDotNetFunction', 'callDotNet','dotNetNumbersFormat']

@@ -237,26 +237,29 @@ def callpythonmaincode(code:str='', cmdline_args:list[str]=[], input:str='', tim
 #Load student code
 def loadmycode(codefile:str='') -> str:
     """
-    This function attempts to read the Python code from the file specified by the 'codefile'
+    This function attempts to read the code from the file specified by the 'codefile'
     parameter. It tries different encodings ('latin1', 'utf8', 'utf16', 'cp437') to decode
     the file content until successful or until all encodings have been attempted.
     Load codefile from src directory.
-    If parameter 'codefile' is not provided, the function attempts to read the first Python file in src directory.
+
+    Function
+    --------
+    If parameter 'codefile' is not provided, the function attempts to read the first file in src directory.
 
     Parameters
     ----------
     codefile : str, optional
-       codefile (str, optional): Path to the Python code file to load (default '').
+       codefile (str, optional): Path to the code file to load (default '').
 
     Returns
     -------
     str
-        Loaded Python code as a string.
+        Loaded code as a string.
 
     Raises
     ------
     FileNotFoundError
-        If Python file is not found in the 'src' directory.
+        If file is not found in the 'src' directory.
 
     Examples
     --------
@@ -264,12 +267,15 @@ def loadmycode(codefile:str='') -> str:
     >>> print(my_code)
     """
     my_code:str = ''
+
     src_directory = os.path.join(os.getcwd(), 'src')
-    py_files = [entry.name for entry in os.scandir(src_directory) if entry.name.endswith('.py')]
+    
     if codefile:
         current_file = src_directory + '/'+ codefile
     else:
-        current_file = src_directory + '/'+ py_files[0]
+        files = [entry.name for entry in os.scandir(src_directory) if entry.name.endswith('.py') or entry.name.endswith('.cs') or entry.name.endswith('.c')]
+        current_file = src_directory + '/'+ files[0]
+    
     if os.path.exists(current_file):
         for encoding in ['latin1', 'utf8','utf16','cp437']:
             try:
@@ -279,7 +285,7 @@ def loadmycode(codefile:str='') -> str:
             except:
                 pass
     else:
-        raise FileNotFoundError(f'Python file not found in the directory: {os.getcwd()}')
+        raise FileNotFoundError(f'File not found in the directory: {os.getcwd()}')
         
     return my_code
     
