@@ -13,17 +13,16 @@ Functions
     - _checkdeniedlibraries(): Check student imports against the list of denied libraries and raise an exception if any are found.
     - callpythoncode(): Executes Python code snippets.
     - callpythonmaincode(): Executes Python code snippets along with the main code.
-    - loadmycode(): Loads the student's Python code.
+    - loadmycode(): Loads the student's code.
     - callpython(): Executes the main Python code.
     - callpython_subprocess(): Runs the main Python code in a separate thread.
-    - load_python_code(): Loads the Python code from the source file.
+    - load_python_code(): This function is deprecated and will be removed in the future. Use loadmycode() instead
 """
 import sys
 import subprocess
 import os
 import threading
 import glob
-
 
 
 def _read_file(file_path: str) -> list[str]:
@@ -44,6 +43,7 @@ def _read_file(file_path: str) -> list[str]:
     FileNotFoundError
         If the file is not found at the specified path.
     """
+
     try:
         with open(file_path, 'r') as file:
             contents:list[str] = file.readlines()
@@ -172,12 +172,12 @@ def callpythoncode(code:str='', cmdline_args:list[str] =[], input:str='', timeou
     if denied_libraries:
         _checkdeniedlibraries(denied_libraries=denied_libraries)
 
-    testcodefile='tests/my_test_code.py'
+    testcodefile = path + '/tests/my_test_code.py'
     f=open(testcodefile, "w")
     f.write(code)
     f.close()
     
-    cmd_line=[sys.executable, '../'+testcodefile,]+cmdline_args
+    cmd_line=[sys.executable, testcodefile,]+cmdline_args
     try:
         rc = subprocess.run(cmd_line, cwd=path+'/src', stdout=subprocess.PIPE, text=True, input=input, timeout=timeout)
     except subprocess.TimeoutExpired:
@@ -324,16 +324,16 @@ def callpython(cmdline_args:list[str] = [], input:str='', timeout:int=30,denied_
     if denied_libs:
         _checkdeniedlibraries(denied_libraries=denied_libs)
 
-    current_directory = os.path.join(os.getcwd(), 'src')
+    src_directory = os.path.join(os.getcwd(), 'src')
 
-    file = [entry.name for entry in os.scandir(current_directory) if entry.name.endswith('.py')]
-    if not file:
-        raise FileNotFoundError(f'Python file not found in the src directory: {current_directory}')
+    py_file = [entry.name for entry in os.scandir(src_directory) if entry.name.endswith('.py')]
+    if not py_file:
+        raise FileNotFoundError(f'Python file not found in the src directory: {src_directory}')
     
-    current_file = file[0]
+    current_file = py_file[0]
     cmd_line=[sys.executable, current_file,]+cmdline_args
     try:
-        rc = subprocess.run(cmd_line, cwd=current_directory, stdout=subprocess.PIPE, text=True, input=input, timeout=timeout)
+        rc = subprocess.run(cmd_line, cwd=src_directory, stdout=subprocess.PIPE, text=True, input=input, timeout=timeout)
     except subprocess.TimeoutExpired:
         print('Timeout expired!')
         return ''
@@ -341,7 +341,7 @@ def callpython(cmdline_args:list[str] = [], input:str='', timeout:int=30,denied_
         print('Execute dropped to fallback!')
         cmd_line_str=' '.join(cmd_line)
         print('"',cmd_line_str, '"')
-        rc = subprocess.run(cmd_line_str, cwd=current_directory, stdout=subprocess.PIPE, universal_newlines=True, input=input, timeout=timeout)
+        rc = subprocess.run(cmd_line_str, cwd=src_directory, stdout=subprocess.PIPE, universal_newlines=True, input=input, timeout=timeout)
         print("Fallback completed, don't worry")
 
     return rc.stdout

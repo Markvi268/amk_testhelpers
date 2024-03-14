@@ -81,22 +81,22 @@ def runalltests() -> None:
     resultfile = open(path + '/results.txt', 'wt')
     skiplist=['ex_template', 'helpers']
 
-    for file in os.listdir(path):
-        if file in skiplist:
+    for directory in os.listdir(path):
+        if directory in skiplist:
             continue
-        if os.path.isdir(file):
-            os.chdir(file)
+        if os.path.isdir(directory):
+            os.chdir(directory)
             command = ['test_assignment']
-            print(f'Starting tests for {file}...')
+            print(f'Starting tests for {directory}...')
             subprocess.run(command, cwd=os.getcwd())
             try:
                 test_result_file = open(os.getcwd() + '/tests/result.txt', 'rt')
                 result = test_result_file.read()
                 test_result_file.close()
-                resultfile.write(f"{file}\t{result}\n")
-            except FileNotFoundError:
-                print(f'{file} test result file not found!')
-                resultfile.write(f"{file}\t0\t0\n")
+                resultfile.write(f"{directory}\t{result}\n")
+            except:
+                print(f'{directory} test result file not found!')
+                resultfile.write(f"{directory}\t0\t0\n")
 
             os.chdir('..')
     resultfile.close()
