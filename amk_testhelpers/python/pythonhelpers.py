@@ -78,6 +78,7 @@ def _checkimpors() -> list[str]:
 
     return imports
 
+
 def _checkallowedlibraries() -> None:
     """
     This function checks the libraries imported by the student against the list of allowed libraries
@@ -190,7 +191,7 @@ def callpythoncode(code:str='', cmdline_args:list[str] =[], input:str='', timeou
         print("Fallback completed, don't worry")
 
     os.remove(testcodefile)    
-    
+
     return rc.stdout
 
 #Run my_code.py and additional code
