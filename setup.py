@@ -29,7 +29,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'wheel'
+        
     ],
 
     python_requires=">=3.10",
