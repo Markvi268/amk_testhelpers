@@ -10,6 +10,7 @@ Functions:
 import os
 import unittest
 import subprocess
+import sys
 
 
 def runtest() -> None:
@@ -23,20 +24,20 @@ def runtest() -> None:
     and writes the test results to a file named 'result.txt'.
 
     """
-
+    
+    current_dir:str = os.getcwd()
     #Get the path to the test directory
-    current_dir = os.getcwd()
-    testpath = os.path.join(current_dir, 'tests')
+    testpath:str = os.path.join(current_dir, 'tests')
 
     #Remove the result file
-    resultfile=os.path.join(testpath, 'result.txt')
+    resultfile:str = os.path.join(testpath, 'result.txt')
     try:
         os.remove(resultfile)
     except:
         pass
 
     #Get the test file
-    test_file = os.path.join(testpath, 'tests.py')
+    test_file:str = os.path.join(testpath, 'tests.py')
 
     #Run the tests
     suite = unittest.TestSuite()
@@ -51,16 +52,16 @@ def runtest() -> None:
 
     result = unittest.TextTestRunner(verbosity=2).run(suite)
 
-    failures = len(result.failures)
-    errors = len(result.errors)
-    running_tests = result.testsRun
+    failures:int = len(result.failures)
+    errors:int = len(result.errors)
+    running_tests:int = result.testsRun
 
     #Write the result file
     outputfile=open(resultfile, 'wt')
     outputfile.write('{0}\t{1}'.format(running_tests-(failures+errors), running_tests))
     outputfile.close()  
     if result.errors or result.failures:
-        failed_tests = errors + failures
+        failed_tests:int = errors + failures
         print(f"{failed_tests}/{running_tests} tests failed!!")
     else:
         print(f"{running_tests} tests completed successfully!")
@@ -72,26 +73,27 @@ def runalltests() -> None:
     """
 
     import time
-    path = os.getcwd()
+    path:str = os.getcwd()
     if os.path.exists(path + '/results.txt'):
         print('Removing old results file...')
         os.remove(path + '/results.txt')
         time.sleep(1)
 
     resultfile = open(path + '/results.txt', 'wt')
-    skiplist=['ex_template', 'helpers']
+    skiplist:list[str] = ['ex_template', 'helpers']
 
     for directory in os.listdir(path):
         if directory in skiplist:
             continue
         if os.path.isdir(directory):
             os.chdir(directory)
-            command = ['test_assignment']
+            command:list[str] = ['test_assignment']
             print(f'Starting tests for {directory}...')
+            sys.stdout.flush()
             subprocess.run(command, cwd=os.getcwd())
             try:
                 test_result_file = open(os.getcwd() + '/tests/result.txt', 'rt')
-                result = test_result_file.read()
+                result:str = test_result_file.read()
                 test_result_file.close()
                 resultfile.write(f"{directory}\t{result}\n")
             except:

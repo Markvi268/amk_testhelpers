@@ -72,9 +72,9 @@ def _checkimpors() -> list[str]:
     module_name = glob.glob(os.getcwd() + '/src/*.py')
     path = module_name[0]
 
-    imports_file = _read_file(path)
+    imports_file:list[str] = _read_file(path)
 
-    imports = [line.strip() for line in imports_file if line.startswith('import') or line.startswith('from')]
+    imports:list[str] = [line.strip() for line in imports_file if line.startswith('import') or line.startswith('from')]
 
     return imports
 
@@ -94,16 +94,16 @@ def _checkallowedlibraries() -> None:
     WARNING!! These libraries is not installed in the checking machine:
     ['import os', 'from sklearn.decomposition import PCA']
     """
-    imports = _checkimpors()
+    imports:list[str] = _checkimpors()
     
-    script_directory = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(script_directory, 'allowed_libraries.txt')
+    script_directory:str = os.path.dirname(os.path.abspath(__file__))
+    file_path:str = os.path.join(script_directory, 'allowed_libraries.txt')
 
-    allowed_libraries_file = _read_file(file_path)
+    allowed_libraries_file:list[str] = _read_file(file_path)
 
-    lines = [line.strip() for line in allowed_libraries_file]
+    lines:list[str] = [line.strip() for line in allowed_libraries_file]
     
-    missing_libraries = [name for name in imports if not any(item in name for item in lines)]
+    missing_libraries:list[str] = [name for name in imports if not any(item in name for item in lines)]
     if missing_libraries:
         print('*'*40)
         print('WARNING!! These libraries is not installed in the checking machine:')
@@ -128,9 +128,9 @@ def _checkdeniedlibraries(denied_libraries: list[str]) -> None:
     Exception
         If any imported libraries are found in the denied list.
     """
-    imports = _checkimpors()
+    imports:list[str] = _checkimpors()
 
-    deniedlibs = [name for name in imports if any(item in name for item in denied_libraries)]
+    deniedlibs:list[str] = [name for name in imports if any(item in name for item in denied_libraries)]
     if deniedlibs:
         raise Exception('You are not allowed to use the following libraries on this task: ' + str(deniedlibs))
 
@@ -167,18 +167,18 @@ def callpythoncode(code:str='', cmdline_args:list[str] =[], input:str='', timeou
     If the execution times out, a TimeoutExpired exception is raised.
     """
 
-    path = os.getcwd()
+    path:str = os.getcwd()
 
     _checkallowedlibraries()
     if denied_libraries:
         _checkdeniedlibraries(denied_libraries=denied_libraries)
 
-    testcodefile = path + '/tests/my_test_code.py'
+    testcodefile:str = path + '/tests/my_test_code.py'
     f=open(testcodefile, "w")
     f.write(code)
     f.close()
     
-    cmd_line=[sys.executable, testcodefile,]+cmdline_args
+    cmd_line:list[str] = [sys.executable, testcodefile,]+cmdline_args
     try:
         rc = subprocess.run(cmd_line, cwd=path+'/src', stdout=subprocess.PIPE, text=True, input=input, timeout=timeout)
     except subprocess.TimeoutExpired:
@@ -186,7 +186,7 @@ def callpythoncode(code:str='', cmdline_args:list[str] =[], input:str='', timeou
         return ''
     except:
         print('Execute dropped to fallback!')
-        cmd_line_str=' '.join(cmd_line)
+        cmd_line_str:str = ' '.join(cmd_line)
         rc = subprocess.run(cmd_line_str, cwd=path+'/src', stdout=subprocess.PIPE, universal_newlines=True, input=input, timeout=timeout)
         print("Fallback completed, don't worry")
 
@@ -231,7 +231,7 @@ def callpythonmaincode(code:str='', cmdline_args:list[str]=[], input:str='', tim
         is raised.
 
     """
-    my_code=loadmycode()
+    my_code:str = loadmycode()
 
     return callpythoncode(code=my_code+code, cmdline_args=cmdline_args, input=input, timeout=timeout)
 
@@ -269,12 +269,12 @@ def loadmycode(codefile:str='') -> str:
     """
     my_code:str = ''
 
-    src_directory = os.path.join(os.getcwd(), 'src')
+    src_directory:str = os.path.join(os.getcwd(), 'src')
     
     if codefile:
-        current_file = src_directory + '/'+ codefile
+        current_file:str = src_directory + '/'+ codefile
     else:
-        files = [entry.name for entry in os.scandir(src_directory) if entry.name.endswith('.py') or entry.name.endswith('.cs') or entry.name.endswith('.c')]
+        files:list[str] = [entry.name for entry in os.scandir(src_directory) if entry.name.endswith('.py') or entry.name.endswith('.cs') or entry.name.endswith('.c')]
         current_file = src_directory + '/'+ files[0]
     
     if os.path.exists(current_file):
@@ -325,14 +325,14 @@ def callpython(cmdline_args:list[str] = [], input:str='', timeout:int=30,denied_
     if denied_libs:
         _checkdeniedlibraries(denied_libraries=denied_libs)
 
-    src_directory = os.path.join(os.getcwd(), 'src')
+    src_directory:str = os.path.join(os.getcwd(), 'src')
 
-    py_file = [entry.name for entry in os.scandir(src_directory) if entry.name.endswith('.py')]
+    py_file:list[str] = [entry.name for entry in os.scandir(src_directory) if entry.name.endswith('.py')]
     if not py_file:
         raise FileNotFoundError(f'Python file not found in the src directory: {src_directory}')
     
-    current_file = py_file[0]
-    cmd_line=[sys.executable, current_file,]+cmdline_args
+    current_file:str = py_file[0]
+    cmd_line:list[str] = [sys.executable, current_file,]+cmdline_args
     try:
         rc = subprocess.run(cmd_line, cwd=src_directory, stdout=subprocess.PIPE, text=True, input=input, timeout=timeout)
     except subprocess.TimeoutExpired:
@@ -340,7 +340,7 @@ def callpython(cmdline_args:list[str] = [], input:str='', timeout:int=30,denied_
         return ''
     except:
         print('Execute dropped to fallback!')
-        cmd_line_str=' '.join(cmd_line)
+        cmd_line_str:str = ' '.join(cmd_line)
         print('"',cmd_line_str, '"')
         rc = subprocess.run(cmd_line_str, cwd=src_directory, stdout=subprocess.PIPE, universal_newlines=True, input=input, timeout=timeout)
         print("Fallback completed, don't worry")
@@ -379,7 +379,7 @@ def callpython_subprocess(cmdline_args:list[str]=[], input:str='', timeout:int=3
     Any exceptions that occur during the script execution will not be raised immediately in the
     main thread but can be handled by checking the status of the Thread object.
     """
-    th=threading.Thread(target=callpython, args=(cmdline_args , input ,timeout))
+    th = threading.Thread(target=callpython, args=(cmdline_args , input ,timeout))
     th.start()
     return th
 
